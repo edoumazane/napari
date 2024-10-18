@@ -33,6 +33,7 @@ from napari.components.layerlist import LayerList
 from napari.components.overlays import (
     AxesOverlay,
     BrushCircleOverlay,
+    LayersInfoBoxOverlay,
     Overlay,
     ScaleBarOverlay,
     TextOverlay,
@@ -117,6 +118,7 @@ def _current_theme() -> str:
 
 DEFAULT_OVERLAYS = {
     'scale_bar': ScaleBarOverlay,
+    'layers_info_box': LayersInfoBoxOverlay,
     'text': TextOverlay,
     'axes': AxesOverlay,
     'brush_circle': BrushCircleOverlay,
@@ -294,6 +296,10 @@ class ViewerModel(KeymapProvider, MousemapProvider, EventedModel):
     @property
     def scale_bar(self):
         return self._overlays['scale_bar']
+
+    @property
+    def layers_info_box(self):
+        return self._overlays['layers_info_box']
 
     @property
     def text_overlay(self):
