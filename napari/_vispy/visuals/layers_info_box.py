@@ -13,20 +13,21 @@ class LayersInfoBox(Compound):
         ]
         self._box_default_color = [0.0, 0.0, 0.0, 0.0]
         self.box_color = self._box_default_color
+        self.position = 'bottom_left'
 
         # order matters (last is drawn on top)
         super().__init__(
             [
                 Rectangle(
-                    center=[3.5, 0.0],
+                    center=[0.5, 0.5],
                     width=1.1,
                     height=36,
                     color=self.box_color,
                 ),
                 Text(
                     text='1px',
-                    pos=[3.5, 0.5],
-                    anchor_x='right',
+                    pos=[0.5, 0.5],
+                    anchor_x='left',
                     anchor_y='top',
                     font_size=10,
                 ),
@@ -49,5 +50,6 @@ class LayersInfoBox(Compound):
         self.text.color = (
             self.colors[0] if self.colors else self._default_color
         )
+
         # self.text.color = np.mean(np.array(self.colors), axis=1) if self.colors else self._default_color
         # self.box.color = 1 - self.text.color

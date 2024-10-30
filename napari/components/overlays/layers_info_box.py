@@ -13,9 +13,6 @@ class LayersInfoBoxOverlay(CanvasOverlay):
     color : ColorValue
         Text color.
         See ``ColorValue.validate`` for supported values.
-    background_color : np.ndarray
-        Background color of canvas. If scale bar is not colored
-        then it has the color opposite of this color.
     font_size : float
         The font size (in points) of the text.
     box : bool
@@ -40,3 +37,4 @@ class LayersInfoBoxOverlay(CanvasOverlay):
     box_color: ColorValue = Field(
         default_factory=lambda: ColorValue([0, 0, 0, 0.6])
     )
+    position: str = 'bottom_left'

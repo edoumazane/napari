@@ -15,12 +15,15 @@ class VispyLayersInfoBoxOverlay(ViewerOverlayMixin, VispyCanvasOverlay):
         super().__init__(
             node=LayersInfoBox(), viewer=viewer, overlay=overlay, parent=parent
         )
-        self.x_size = 150  # will be updated on zoom anyways
+        self.x_size = 5  # will be updated on zoom anyways
+        self.x_offset = 20  # will be updated on zoom anyways
         # need to change from defaults because the anchor is in the center
         self.y_offset = 20
         self.y_size = 5
 
         self.overlay.events.box.connect(self._on_box_change)
+        self.overlay.events.position.connect(self._on_position_change)
+        self.overlay.events.position.connect(self._on_position_change_2)
         self.overlay.events.box_color.connect(self._on_text_change)
         self.overlay.events.color.connect(self._on_text_change)
         self.overlay.events.colored.connect(self._on_text_change)
@@ -31,6 +34,21 @@ class VispyLayersInfoBoxOverlay(ViewerOverlayMixin, VispyCanvasOverlay):
         self.viewer.layers.events.connect(self._on_box_change)
 
         self.reset()
+
+    def _on_position_change_2(self):
+        anchors = self.node.text.anchors
+        if self.overlay.position.startswith('top'):
+            self.node.text.anchors = (anchors[0], 'bottom')
+        elif self.overlay.position.startswith('bottom'):
+            self.node.text.anchors = (anchors[0], 'top')
+        elif self.overlay.position.startswith('center'):
+            self.node.text.anchors = (anchors[0], 'center')
+        if self.overlay.position.endswith('left'):
+            self.node.text.anchors = ('left', anchors[1])
+        elif self.overlay.position.endswith('right'):
+            self.node.text.anchors = ('right', anchors[1])
+        elif self.overlay.position.endswith('center'):
+            self.node.text.anchors = ('center', anchors[1])
 
     def _on_data_change(self):
         """Change color and data of scale bar and box."""
@@ -80,3 +98,4 @@ class VispyLayersInfoBoxOverlay(ViewerOverlayMixin, VispyCanvasOverlay):
         super().reset()
         self._on_box_change()
         self._on_text_change()
+        self._on_position_change()
