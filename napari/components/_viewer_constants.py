@@ -11,6 +11,9 @@ class CanvasPosition(StrEnum):
             * bottom_right: Bottom right of the canvas
             * bottom_left: Bottom left of the canvas
             * bottom_center: Bottom center of the canvas
+            * center: Center of the canvas
+            * center_left: Center left of the canvas
+            * center_right: Center right of the canvas
     """
 
     CENTER_LEFT = 'center_left'
