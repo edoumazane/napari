@@ -1,5 +1,6 @@
 import numpy as np
 
+import napari.layers.labels.labels
 from napari._vispy.overlays.base import ViewerOverlayMixin, VispyCanvasOverlay
 from napari._vispy.visuals.layers_info_box import LayersInfoBox
 from napari.utils.colormaps.standardize_color import transform_color
@@ -89,10 +90,22 @@ class VispyLayersInfoBoxOverlay(ViewerOverlayMixin, VispyCanvasOverlay):
     def _on_text_change(self):
         """Update text information"""
         self.node.text.font_size = self.overlay.font_size
-        self.node._layer_names = [
-            layer.name for layer in self.viewer.layers if layer.visible
-        ][::-1]
+        visible_layers = [
+            layer for layer in self.viewer.layers if layer.visible
+        ]
+        visible_layer_names = [layer.name for layer in visible_layers]
+        self.node._layer_names = visible_layer_names[::-1]
         self.node.set_layer_names()
+        if visible_layers:
+            if isinstance(
+                visible_layers[-1], napari.layers.labels.labels.Labels
+            ):
+                self.node.text.color = visible_layers[-1].colormap.colors[1]
+            elif hasattr(visible_layers[-1], 'colormap'):
+                self.node.text.color = visible_layers[-1].colormap.colors[-1]
+            else:
+                self.node.text.color = self.node._default_color
+            # self.node.text.color = visible_layers[0]
 
     def reset(self):
         super().reset()
