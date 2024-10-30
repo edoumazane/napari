@@ -11,21 +11,36 @@ from skimage import data
 import napari
 
 cells = data.cells3d()
+mask = cells[:,1]>12000
+
 
 viewer = napari.Viewer(ndisplay=3)
 
 viewer.add_image(
     cells,
-    name=('membrane', 'nuclei'),
+    name=['membrane', 'nuclei'],
     channel_axis=1,
     scale=(0.29, 0.26, 0.26),
 )
+
+viewer.add_labels(
+    mask,
+    name="nuclei simple mask",
+    scale=(0.29, 0.26, 0.26),
+)
+
+
 viewer.layers_info_box.visible = True
+viewer.layers_info_box.font_size = 20  # default is 10
+
+
+
+# viewer.layers_info_box.colored = True
 #
 # # Text options
 # viewer.scale_bar.unit = 'um'  # set to None to diplay no unit
 # viewer.scale_bar.length = 23  # length, in units, of the scale bar
-# viewer.scale_bar.font_size = 20  # default is 10
+
 #
 # # Text color
 # viewer.scale_bar.colored = True  # default value is False

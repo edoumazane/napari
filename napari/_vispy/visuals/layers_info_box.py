@@ -1,24 +1,32 @@
-import numpy as np
 from vispy.scene.visuals import Compound, Rectangle, Text
 
 
 class LayersInfoBox(Compound):
     def __init__(self) -> None:
-        self._data = np.array(
-            [
-                'layer_1',
-                'layer_2',
-            ]
-        )
+        self._layer_names = [
+            'layer_1',
+        ]
+        self._nlayers = len(self._layer_names)
+        self._default_color = [1.0, 1.0, 1.0, 1.0]
+        self.colors = [
+            self._default_color,
+        ]
+        self._box_default_color = [0.0, 0.0, 0.0, 0.0]
+        self.box_color = self._box_default_color
 
         # order matters (last is drawn on top)
         super().__init__(
             [
-                Rectangle(center=[3.5, 0.5], width=1.1, height=36),
+                Rectangle(
+                    center=[3.5, 0.0],
+                    width=1.1,
+                    height=36,
+                    color=self.box_color,
+                ),
                 Text(
                     text='1px',
                     pos=[3.5, 0.5],
-                    anchor_x='center',
+                    anchor_x='right',
                     anchor_y='top',
                     font_size=10,
                 ),
@@ -33,7 +41,13 @@ class LayersInfoBox(Compound):
     def box(self):
         return self._subvisuals[0]
 
-    def set_text(self, color):
-        data = self._data
-        self.text.text = '\n'.join(data)
-        self.text.color = color
+    def set_layer_names(self):
+        layer_names = self._layer_names
+        self._nlayers = len(layer_names)
+        self.colors = [self._default_color] * self._nlayers
+        self.text.text = '\n'.join(layer_names)
+        self.text.color = (
+            self.colors[0] if self.colors else self._default_color
+        )
+        # self.text.color = np.mean(np.array(self.colors), axis=1) if self.colors else self._default_color
+        # self.box.color = 1 - self.text.color
