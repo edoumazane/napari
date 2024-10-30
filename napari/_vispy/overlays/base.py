@@ -119,6 +119,27 @@ class VispyCanvasOverlay(VispyBaseOverlay):
                 0,
                 0,
             ]
+        elif position == CanvasPosition.CENTER_LEFT:
+            transform = [
+                self.x_offset,
+                y_max / 2 - self.y_size / 2,
+                0,
+                0,
+            ]
+        elif position == CanvasPosition.CENTER_RIGHT:
+            transform = [
+                x_max - self.x_size - self.x_offset,
+                y_max / 2 - self.y_size / 2,
+                0,
+                0,
+            ]
+        elif position == CanvasPosition.CENTER:
+            transform = [
+                x_max / 2 - self.x_size / 2,
+                y_max / 2 - self.y_size / 2,
+                0,
+                0,
+            ]
         else:
             raise ValueError(
                 trans._(

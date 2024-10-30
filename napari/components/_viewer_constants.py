@@ -13,6 +13,9 @@ class CanvasPosition(StrEnum):
             * bottom_center: Bottom center of the canvas
     """
 
+    CENTER_LEFT = 'center_left'
+    CENTER_RIGHT = 'center_right'
+    CENTER = 'center'
     TOP_LEFT = 'top_left'
     TOP_CENTER = 'top_center'
     TOP_RIGHT = 'top_right'
